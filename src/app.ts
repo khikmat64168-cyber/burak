@@ -5,6 +5,7 @@
 import express from 'express';
 import path from 'path';
 import router from './router';
+import routerAdmin from './routerAdmin';
 
 // Express 4 qisimdan iborat
 
@@ -22,6 +23,11 @@ app.set('views', path.join(__dirname, 'views')); // views papkasini ko'rsatamiz
 app.set('view engine', 'ejs'); // ejs ni view engine sifatida ishlatamiz
 
 /** 4-ROOTERS **/
+
+//SSR : EJS
+app.use('/admin', routerAdmin);
+
+//SPA: REACT  uchun burak loyihamizni ishlatamiz
 app.use('/', router); // Kelayotgan so'rovlarni routerga yuborish uchun kerak MIDDLEWARE DESIGN PATTERN
 
 export default app;
