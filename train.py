@@ -1,3 +1,29 @@
+########### N-TASK ##############
+
+def palindromCheck(string):
+  return string == string[::-1]
+
+
+print(palindromCheck("dad"))
+print(palindromCheck("arra"))
+
+print(palindromCheck("ikki"))
+
+print(palindromCheck("cool"))
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
 ########### M-TASK ##############
 
 def getSquareNumbers(numbers):
@@ -7,7 +33,7 @@ print(getSquareNumbers({1, 2, 3, 4, 5}))
 
 
 
-'''  
+
 ########### L-TASK ##############
 
 def reverseSentence(gapp):
