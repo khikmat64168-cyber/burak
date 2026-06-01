@@ -15,6 +15,7 @@ export enum Message {
   NO_DATA_FOUND = 'No data found',
   CREATED_AT = 'Created at',
   UPDATED_AT = 'Updated at',
+  CREATE_FAILED = 'Create failed',
 }
 
 class Errors extends Error {

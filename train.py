@@ -1,3 +1,6 @@
+
+'''
+
 ########### N-TASK ##############
 
 def palindromCheck(string):
@@ -22,7 +25,7 @@ print(palindromCheck("cool"))
 
 
 
-'''
+
 
 ########### M-TASK ##############
 

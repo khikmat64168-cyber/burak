@@ -15,3 +15,10 @@
   
  -error handling standarsi : biz har bir controller methodida try catch bloklarini ishlatamiz va xatoliklarni loglashni ta'minlaymiz. Bu esa bizga xatoliklarni tahlil qilish va muammolarni aniqlashda yordam beradi.    
 */
+
+/* 
+Traditional API 
+Rest API
+GraphQL API
+...
+*/
