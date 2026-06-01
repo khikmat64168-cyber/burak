@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true })); // formadan kelgan malumotlarni
 app.use(express.json()); // json formatdagi malumotlarni qabul qilish uchun
 
 app.use(morgan(MORGAN_FORMAT));
+
 /** 2-SESSIONS **/
 
 /** 3-VIEWS **/
