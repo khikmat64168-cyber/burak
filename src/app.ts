@@ -6,6 +6,9 @@ import express from 'express';
 import path from 'path';
 import router from './router';
 import routerAdmin from './routerAdmin';
+import morgan from 'morgan';
+import { MORGAN_FORMAT } from './libs/types/config';
+// Express 4 qisimdan iborat
 
 // Express 4 qisimdan iborat
 
@@ -16,6 +19,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true })); // formadan kelgan malumotlarni qabul qilish uchun
 
 app.use(express.json()); // json formatdagi malumotlarni qabul qilish uchun
+
+app.use(morgan(MORGAN_FORMAT));
 /** 2-SESSIONS **/
 
 /** 3-VIEWS **/
@@ -31,3 +36,5 @@ app.use('/admin', routerAdmin);
 app.use('/', router); // Kelayotgan so'rovlarni routerga yuborish uchun kerak MIDDLEWARE DESIGN PATTERN
 
 export default app;
+/// nega biz morganni entrancega middlware integration qilamiz
+//Morganni entrancega middleware integration qilishimizning sababi shundaki, biz har bir requestni loglashni xohlaymiz va bu loglarni tahlil qilish uchun kerak bo'ladi. Morgan middleware ni entrancega qo'shish orqali, biz har bir requestni loglashni ta'minlaymiz va bu loglarni tahlil qilish imkonini yaratamiz. Bu esa bizga requestlarni tahlil qilish va loglash imkonini beradi, bu esa bizga serverimizning ishlashini yaxshilash va muammolarni aniqlashda yordam beradi.
