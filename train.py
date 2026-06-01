@@ -1,3 +1,9 @@
+########### O-TASK ##############
+def calculateSumOfNumbers(nomerlar):
+  return sum(el for el in nomerlar if isinstance(el, (int, float))and not isinstance(el, bool))
+
+print(calculateSumOfNumbers([10, "10", {"son": 10}, True, 35]))
+
 
 '''
 
