@@ -33,7 +33,7 @@ routerAdmin
     restaurantController.getLogin,
   )
   .post(
-    '/login/process',
+    '/login',
     //    (req: Request, res: Response) => {
     //   res.send('Signup page');
     // });

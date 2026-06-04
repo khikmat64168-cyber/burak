@@ -16,6 +16,11 @@ export enum Message {
   CREATED_AT = 'Created at',
   UPDATED_AT = 'Updated at',
   CREATE_FAILED = 'Create failed',
+
+  USED_NICK_PHONE = " You are inserting already used nick or phone",
+  NO_MEMBER_NICK = "No member with this nick",
+  WRONG_PASSWORD = "Wrong password, please try again"
+
 }
 
 class Errors extends Error {
