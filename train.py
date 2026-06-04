@@ -1,3 +1,12 @@
+########### P-TASK ##############
+
+def objectToArray(sonlar):
+  return  [list(item) for item in sonlar.items()]
+
+print(objectToArray({ "a": 10, "b": 20 }))
+
+
+'''
 ########### O-TASK ##############
 def calculateSumOfNumbers(nomerlar):
   return sum(el for el in nomerlar if isinstance(el, (int, float))and not isinstance(el, bool))
@@ -5,7 +14,7 @@ def calculateSumOfNumbers(nomerlar):
 print(calculateSumOfNumbers([10, "10", {"son": 10}, True, 35]))
 
 
-'''
+
 
 ########### N-TASK ##############
 
