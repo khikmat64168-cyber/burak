@@ -1,3 +1,12 @@
+########### Q-TASK ##############
+def hasProperty (obj, propertisi):
+  return propertisi in obj
+
+print(hasProperty({ "name": "BMW" }, "name"))
+print(hasProperty({ "name": "BMW" }, "number"))
+
+
+'''
 ########### P-TASK ##############
 
 def objectToArray(sonlar):
@@ -6,7 +15,7 @@ def objectToArray(sonlar):
 print(objectToArray({ "a": 10, "b": 20 }))
 
 
-'''
+
 ########### O-TASK ##############
 def calculateSumOfNumbers(nomerlar):
   return sum(el for el in nomerlar if isinstance(el, (int, float))and not isinstance(el, bool))
