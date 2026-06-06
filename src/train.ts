@@ -22,3 +22,9 @@ Rest API
 GraphQL API
 ...
 */
+
+/*
+   Traditional FD  => SSR .  EJS
+   Modern FD.     =>  SPA . React 
+
+*/

@@ -1,3 +1,15 @@
+/**
+ * ┌─────────┐
+ *  │ PHASE 4 │ ─── KOD KETMA-KETLIK OQIMI
+ *  └─────────┘
+ *  ─── KOD TAHLILI ──────────────────────────────────────────────────
+ *  Bu fayl restaurant uchun Controller vazifasini bajaradi.
+ *  Router dan kelgan so'rovlarni qabul qilib, biznes logikani
+ *  MemberService ga uzatadi va natijani clientga qaytaradi.
+ *  Oqim: server.ts → app.ts → router-admin.ts → [restaurant.controller.ts] → service → schema
+ *  ──────────────────────────────────────────────────────────────────
+ */
+
 //controllerlar objectlar orqali hosil qilinadi
 
 import { Request, Response } from 'express';
@@ -8,7 +20,27 @@ import MemberService from '../models/Member.service';
 import { MemberInput, LoginInput } from '../libs/types/members';
 import { MemberType } from '../libs/types/enums/member.enum';
 
+const memberService = new MemberService();
+
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * restaurantController — T tipidagi bo'sh object sifatida e'lon
+ * qilinadi. T interface { [key: string]: any } ko'rinishida bo'lib,
+ * objectga ixtiyoriy kalit va qiymat qo'shish imkonini beradi.
+ * Keyingi qatorlarda shu objectga metodlar property sifatida
+ * assign qilinadi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 const restaurantController: T = {};
+
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * goHome — GET so'rovini qayta ishlaydi. req (Request) va
+ * res (Response) parametrlarini qabul qilib, res.send() orqali
+ * clientga oddiy matn javob qaytaradi. try-catch orqali xatolar
+ * ushlanadi va console.log ga chiqariladi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 restaurantController.goHome = (req: Request, res: Response) => {
   try {
     res.send('Home page');
@@ -17,9 +49,28 @@ restaurantController.goHome = (req: Request, res: Response) => {
     console.log('Error. goHome:', err);
   }
 };
-/////////nega routerdagi mantiq controllerga ko'chirildi ??????
-///////// export bilan export defaut farqi nimada ?
-
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * getSignup — GET /admin/signup so'rovini qayta ishlaydi.
+ * Bu metod faqat signup sahifasini ko'rsatish uchun mo'ljallangan.
+ * res.send() orqali clientga matn qaytaradi.
+ * ──────────────────────────────────────────────────────────────────
+ */
+restaurantController.getSignup = (req: Request, res: Response) => {
+  try {
+    console.log('getSignup');
+    res.send('Signup page');
+  } catch (err) {
+    console.log('Error. getSignup:', err);
+  }
+};
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * getLogin — GET /admin/login so'rovini qayta ishlaydi.
+ * Bu metod faqat login sahifasini ko'rsatish uchun mo'ljallangan
+ * (SSR yondashuvi). res.send() orqali clientga matn qaytaradi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 restaurantController.getLogin = (req: Request, res: Response) => {
   try {
     console.log('getLogin');
@@ -29,40 +80,25 @@ restaurantController.getLogin = (req: Request, res: Response) => {
   }
 };
 
-restaurantController.getSignup = (req: Request, res: Response) => {
-  try {
-    console.log('getSignup');
-    res.send('Signup page');
-  } catch (err) {
-    console.log('Error. getSignup:', err);
-  }
-};
-
-restaurantController.processLogin = async (req: Request, res: Response) => {
-  try {
-    console.log('processLogin');
-    console.log('body:', req.body);
-    const input: LoginInput = req.body;
-
-    const memberService = new MemberService();
-    const result = await memberService.processLogin(input);
-    res.send(result);
-  } catch (err) {
-    console.log('Error. processLogin:', err);
-    res.send(err);
-  }
-};
-
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * processSignup — async arrow function bo'lib, POST /admin/signup
+ * so'rovini qayta ishlaydi. req.body dan MemberInput tipidagi
+ * ma'lumotlar olinadi. newMember.memberType ga MemberType.RESTAURANT
+ * qiymati assign qilinadi — ya'ni bu foydalanuvchi restaurant
+ * ekanligini belgilaydi. MemberService instance yaratiladi va
+ * processSignup metodi chaqiriladi. Natija res.send() bilan
+ * clientga qaytariladi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 restaurantController.processSignup = async (req: Request, res: Response) => {
   try {
     console.log('processSignup');
     console.log('body:', req.body);
     const newMember: MemberInput = req.body;
     newMember.memberType = MemberType.RESTAURANT;
-
-    const memberService = new MemberService();
     const result = await memberService.processSignup(newMember);
-
+    // TODO: SESSIONS Authentification
     res.send(result);
   } catch (err) {
     console.log('Error. processSignup:', err);
@@ -71,10 +107,29 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
   }
 };
 
-//memberControllerri  routerni ichida chaqrib olishimiz uchun export qilishimiz kerak
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * processLogin — async arrow function bo'lib, POST /admin/login
+ * so'rovini qayta ishlaydi. req.body dan LoginInput tipidagi
+ * ma'lumotlar olinadi. MemberService instance yaratiladi va
+ * processLogin metodi chaqiriladi. await orqali natija result ga
+ * saqlanib, res.send() bilan clientga qaytariladi.
+ * ──────────────────────────────────────────────────────────────────
+ */
+restaurantController.processLogin = async (req: Request, res: Response) => {
+  try {
+    console.log('processLogin');
+    console.log('body:', req.body);
+    const input: LoginInput = req.body;
 
-//Loyihamizda controller va service larni alohida fayllarda saqlaymiz , chunki controller faqatgina request va response bilan ishlaydi , service esa biznes logikani amalga oshiradi , bu esa kodni yanada toza va tartibli qiladi
+    const result = await memberService.processLogin(input);
+    res.send(result);
 
-// Loyihamizda requestlarni turini chop etish uchun Morgan middleware ni ishlatamiz , bu esa bizga requestlarni tahlil qilish va loglash imkonini beradi
+    // TODO: SESSIONS  Authentification
+  } catch (err) {
+    console.log('Error. processLogin:', err);
+    res.send(err);
+  }
+};
 
 export default restaurantController;

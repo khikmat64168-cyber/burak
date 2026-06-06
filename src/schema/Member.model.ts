@@ -1,3 +1,16 @@
+/**
+ * ┌─────────┐
+ *  │ PHASE 6 │ ─── KOD KETMA-KETLIK OQIMI
+ *  └─────────┘
+ *  ─── KOD TAHLILI ──────────────────────────────────────────────────
+ *  Bu fayl MongoDB uchun Member schema va modelini ta'riflaydi.
+ *  Oqimning oxirgi nuqtasi — service bu model orqali database
+ *  bilan to'g'ridan-to'g'ri muloqot qiladi. Barcha maydonlar,
+ *  validatsiya qoidalari va indekslar shu yerda belgilanadi.
+ *  Oqim: server.ts → app.ts → router → controller → service → [Member.model.ts]
+ *  ──────────────────────────────────────────────────────────────────
+ */
+
 import mongoose, { Schema } from 'mongoose';
 import { MemberStatus, MemberType } from '../libs/types/enums/member.enum';
 

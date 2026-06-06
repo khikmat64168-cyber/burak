@@ -1,3 +1,15 @@
+/**
+ * ┌─────────┐
+ *  │ PHASE 0 │ ─── KOD KETMA-KETLIK OQIMI
+ *  └─────────┘
+ *  ─── KOD TAHLILI ──────────────────────────────────────────────────
+ *  Bu fayl loyiha bo'ylab ishlatiladigan xato tizimidir.
+ *  HttpCode va Message enumlari barcha qatlamlarda (controller,
+ *  service) import qilinadi. PHASE 0 — chunki bu yordamchi
+ *  modul bo'lib, oqim boshlanishidan oldin tayyor turadi.
+ *  ──────────────────────────────────────────────────────────────────
+ */
+
 export enum HttpCode {
   OK = 200,
   CREATED = 201,
@@ -17,15 +29,19 @@ export enum Message {
   UPDATED_AT = 'Updated at',
   CREATE_FAILED = 'Create failed',
 
-  USED_NICK_PHONE = " You are inserting already used nick or phone",
-  NO_MEMBER_NICK = "No member with this nick",
-  WRONG_PASSWORD = "Wrong password, please try again"
-
+  USED_NICK_PHONE = ' You are inserting already used nick or phone',
+  NO_MEMBER_NICK = 'No member with this nick',
+  WRONG_PASSWORD = 'Wrong password, please try again',
 }
 
 class Errors extends Error {
   public code: HttpCode;
   public message: Message;
+
+  static standard = {
+    code: HttpCode.INTERNAL_SERVER_ERROR,
+    message: Message.SOMETHING_WENT_WRONG,
+  };
 
   constructor(statusCode: HttpCode, statusMessage: Message) {
     super();

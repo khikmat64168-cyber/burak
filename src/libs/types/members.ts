@@ -1,3 +1,15 @@
+/**
+ * ┌─────────┐
+ *  │ PHASE 0 │ ─── KOD KETMA-KETLIK OQIMI
+ *  └─────────┘
+ *  ─── KOD TAHLILI ──────────────────────────────────────────────────
+ *  Bu fayl Member, MemberInput va LoginInput TypeScript
+ *  interfacelarini ta'riflaydi. Controller, service va schema
+ *  qatlamlari bu tiplardan foydalanadi. PHASE 0 — type safety
+ *  ta'minlash uchun barcha qatlamlardan oldin tayyor turadi.
+ *  ──────────────────────────────────────────────────────────────────
+ */
+
 import { Objectid } from 'mongodb';
 import { MemberType, MemberStatus } from './enums/member.enum';
 

@@ -1,3 +1,15 @@
+/**
+ * ┌─────────┐
+ *  │ PHASE 3 │ ─── KOD KETMA-KETLIK OQIMI
+ *  └─────────┘
+ *  ─── KOD TAHLILI ──────────────────────────────────────────────────
+ *  Bu fayl /admin prefiksli so'rovlarni boshqaradi (SSR — EJS).
+ *  app.ts dan kelgan so'rovlarni qabul qilib, tegishli
+ *  controller metodlariga yo'naltiradi.
+ *  Oqim: server.ts → app.ts → [router-admin.ts] → controller → service → schema
+ *  ──────────────────────────────────────────────────────────────────
+ */
+
 import express, { Request, Response } from 'express';
 const routerAdmin = express.Router();
 import restaurantController from './controllers/restaurant.controller';

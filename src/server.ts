@@ -1,3 +1,16 @@
+/**
+ * ┌─────────┐
+ *  │ PHASE 1 │ ─── KOD KETMA-KETLIK OQIMI
+ *  └─────────┘
+ *  ─── KOD TAHLILI ──────────────────────────────────────────────────
+ *  Bu loyihaning KIRISH NUQTASI (Entry Point). Dastur ishga
+ *  tushganda birinchi navbatda shu fayl execute qilinadi.
+ *  .env yuklaydi → MongoDB ga ulanadi → Express serverni
+ *  ishga tushiradi.
+ *  Oqim: server.ts → app.ts → router → controller → service → schema
+ *  ──────────────────────────────────────────────────────────────────
+ */
+
 // console.log('EXECUTED!');
 
 // import moment from 'moment';

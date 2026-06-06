@@ -1,3 +1,15 @@
+/**
+ * ┌─────────┐
+ *  │ PHASE 2 │ ─── KOD KETMA-KETLIK OQIMI
+ *  └─────────┘
+ *  ─── KOD TAHLILI ──────────────────────────────────────────────────
+ *  Bu fayl Express applicationni sozlaydi. server.ts dan keyin
+ *  ishga tushadi. Barcha middleware lar (static, urlencoded,
+ *  json, morgan) va routelar shu yerda app ga ulanadi.
+ *  Oqim: server.ts → [app.ts] → router → controller → service → schema
+ *  ──────────────────────────────────────────────────────────────────
+ */
+
 ////// Express ning integratsiyasini amalga oshirish////
 
 //MVC -- client -> controller -> Model (service module:controllerlar bilan ; schema module database bilan ishlidi ) -> database ->views
@@ -8,34 +20,79 @@ import router from './router';
 import routerAdmin from './router-admin';
 import morgan from 'morgan';
 import { MORGAN_FORMAT } from './libs/types/config';
-// Express 4 qisimdan iborat
 
-// Express 4 qisimdan iborat
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * express() — Express framework ning asosiy instance ini yaratadi
+ * va uni app o'zgaruvchisiga assign qiladi. Keyingi barcha
+ * middleware va routelar shu app orqali ulangani kerak.
+ * ──────────────────────────────────────────────────────────────────
+ */
 
 /** 1-ENTERANCE **/
 const app = express();
-// console.log('__dirname:', __dirname);
+
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * app.use(express.static()) — public papkasidagi statik fayllarni
+ * (CSS, JS, rasm) clientga uzatish uchun middleware ulaydi.
+ * path.join(__dirname, 'public') — joriy fayl joylashgan
+ * papkadan public papkasiga absolyut yo'lni tuzadi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.urlencoded({ extended: true })); // formadan kelgan malumotlarni qabul qilish uchun
 
-app.use(express.json()); // json formatdagi malumotlarni qabul qilish uchun
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * express.urlencoded({ extended: true }) — HTML form orqali
+ * yuborilgan x-www-form-urlencoded formatidagi ma'lumotlarni
+ * parse qiladi va req.body ga joylaydi.
+ * express.json() — application/json formatidagi so'rovlar
+ * body sini parse qilib req.body ga joylaydi.
+ * ──────────────────────────────────────────────────────────────────
+ */
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * morgan(MORGAN_FORMAT) — HTTP so'rovlarini loglash uchun
+ * middleware ulaydi. MORGAN_FORMAT — config.ts dan import
+ * qilingan custom format string bo'lib, har bir so'rovning
+ * metodi, URL, status kodi va javob vaqtini chiqaradi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 app.use(morgan(MORGAN_FORMAT));
 
 /** 2-SESSIONS **/
 
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * app.set('views') — EJS template fayllar joylashgan papkani
+ * Express ga bildiradi. app.set('view engine', 'ejs') — Express ga
+ * template engine sifatida EJS ishlatishni buyuradi. Bu SSR
+ * (Server Side Rendering) uchun kerak.
+ * ──────────────────────────────────────────────────────────────────
+ */
 /** 3-VIEWS **/
-app.set('views', path.join(__dirname, 'views')); // views papkasini ko'rsatamiz
-app.set('view engine', 'ejs'); // ejs ni view engine sifatida ishlatamiz
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * app.use('/admin', routerAdmin) — /admin prefiksi bilan kelgan
+ * barcha so'rovlarni routerAdmin ga yo'naltiradi (SSR — EJS uchun).
+ * app.use('/', router) — qolgan barcha so'rovlarni asosiy
+ * router ga uzatadi (SPA — React uchun). Bu Middleware
+ * Design Pattern asosida ishlaydi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 /** 4-ROOTERS **/
 
 //SSR : EJS
 app.use('/admin', routerAdmin);
 
 //SPA: REACT  uchun burak loyihamizni ishlatamiz
-app.use('/', router); // Kelayotgan so'rovlarni routerga yuborish uchun kerak MIDDLEWARE DESIGN PATTERN
+app.use('/', router);
 
 export default app;
-/// nega biz morganni entrancega middlware integration qilamiz
-//Morganni entrancega middleware integration qilishimizning sababi shundaki, biz har bir requestni loglashni xohlaymiz va bu loglarni tahlil qilish uchun kerak bo'ladi. Morgan middleware ni entrancega qo'shish orqali, biz har bir requestni loglashni ta'minlaymiz va bu loglarni tahlil qilish imkonini yaratamiz. Bu esa bizga requestlarni tahlil qilish va loglash imkonini beradi, bu esa bizga serverimizning ishlashini yaxshilash va muammolarni aniqlashda yordam beradi.
