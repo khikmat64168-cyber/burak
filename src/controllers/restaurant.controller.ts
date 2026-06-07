@@ -17,7 +17,7 @@ import { Request, Response } from 'express';
 import { T } from '../libs/types/common';
 
 import MemberService from '../models/Member.service';
-import { MemberInput, LoginInput } from '../libs/types/members';
+import { AdminRequest, MemberInput, LoginInput } from '../libs/types/members';
 import { MemberType } from '../libs/types/enums/member.enum';
 
 const memberService = new MemberService();
@@ -99,7 +99,12 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
     newMember.memberType = MemberType.RESTAURANT;
     const result = await memberService.processSignup(newMember);
     // TODO: SESSIONS Authentification
-    res.send(result);
+
+    req.session.member = result;
+
+    req.session.save(function () {
+      res.send(result);
+    });
   } catch (err) {
     console.log('Error. processSignup:', err);
     res.send(err);
@@ -116,16 +121,26 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
  * saqlanib, res.send() bilan clientga qaytariladi.
  * ──────────────────────────────────────────────────────────────────
  */
-restaurantController.processLogin = async (req: Request, res: Response) => {
+restaurantController.processLogin = async (
+  req: AdminRequest,
+  res: Response,
+) => {
   try {
     console.log('processLogin');
     console.log('body:', req.body);
     const input: LoginInput = req.body;
 
     const result = await memberService.processLogin(input);
-    res.send(result);
 
-    // TODO: SESSIONS  Authentification
+    // TODO: SESSIONS Authentification
+
+    req.session.member = result;
+
+    req.session.save(function () {
+      res.send(result);
+    });
+
+    res.send(result);
   } catch (err) {
     console.log('Error. processLogin:', err);
     res.send(err);

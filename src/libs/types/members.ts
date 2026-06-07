@@ -12,6 +12,14 @@
 
 import { Objectid } from 'mongodb';
 import { MemberType, MemberStatus } from './enums/member.enum';
+import { Request } from 'express';
+import { Session } from 'express-session';
+
+declare module 'express-session' {
+  interface SessionData {
+    member: Member;
+  }
+}
 
 export interface Member {
   _id: Objectid;
@@ -43,4 +51,9 @@ export interface MemberInput {
 export interface LoginInput {
   memberNick: string;
   memberPassword: string;
+}
+
+export interface AdminRequest extends Request {
+  member: Member;
+  session: Session & { member: Member };
 }
