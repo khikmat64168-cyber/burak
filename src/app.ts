@@ -21,6 +21,14 @@ import routerAdmin from './router-admin';
 import morgan from 'morgan';
 import { MORGAN_FORMAT } from './libs/types/config';
 
+import session from 'express-session';
+import ConnectMongoDb from 'connect-mongodb-session';
+
+const MongoDBStore = ConnectMongoDb(session);
+const store = new MongoDBStore({
+  uri: String(process.env.MONGO_URL),
+  collection: 'sessions',
+});
 /**
  * ─── KOD TAHLILI ──────────────────────────────────────────────────
  * express() — Express framework ning asosiy instance ini yaratadi
@@ -65,6 +73,17 @@ app.use(express.json());
 app.use(morgan(MORGAN_FORMAT));
 
 /** 2-SESSIONS **/
+app.use(
+  session({
+    secret: String(process.env.SESSION_SECRET),
+    cookie: {
+      maxAge: 1000 * 3600 * 60 * 3, // 3 housr
+    },
+    store: store,
+    resave: true,
+    saveUninitialized: true,
+  }),
+);
 
 /**
  * ─── KOD TAHLILI ──────────────────────────────────────────────────
