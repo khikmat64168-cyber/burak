@@ -1,3 +1,32 @@
+########### R-TASK ##############
+
+def calculate(stringHisoblidigan: str) -> int:
+  boleklari = stringHisoblidigan.split()
+  a = int(boleklari[0])
+  amalgaOshiradigan = boleklari[1]
+  b = int(boleklari[2])
+  
+  if amalgaOshiradigan =="+":
+    return a + b
+  elif amalgaOshiradigan == "-":
+    return a - b
+  elif amalgaOshiradigan == "*":
+    return a * b
+  elif amalgaOshiradigan == "/":
+    return a // b 
+
+print(calculate("1 + 3"))
+
+
+
+
+
+
+
+
+
+
+'''
 ########### Q-TASK ##############
 def hasProperty (obj, propertisi):
   return propertisi in obj
@@ -6,7 +35,7 @@ print(hasProperty({ "name": "BMW" }, "name"))
 print(hasProperty({ "name": "BMW" }, "number"))
 
 
-'''
+
 ########### P-TASK ##############
 
 def objectToArray(sonlar):
