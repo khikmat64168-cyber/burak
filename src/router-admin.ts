@@ -52,6 +52,8 @@ routerAdmin
     restaurantController.processLogin,
   );
 
+routerAdmin.get('/logout', restaurantController.logout);
+
 routerAdmin.get('/check-me', restaurantController.checkAuthSession);
 
 /** Product   */

@@ -48,6 +48,7 @@ restaurantController.goHome = (req: Request, res: Response) => {
     //response turlari : send , json , render , redirect ,  end
   } catch (err) {
     console.log('Error. goHome:', err);
+    res.redirect('/admin');
   }
 };
 /**
@@ -63,6 +64,7 @@ restaurantController.getSignup = (req: Request, res: Response) => {
     res.render('signup');
   } catch (err) {
     console.log('Error. getSignup:', err);
+    res.redirect('/admin');
   }
 };
 /**
@@ -78,6 +80,7 @@ restaurantController.getLogin = (req: Request, res: Response) => {
     res.render('login');
   } catch (err) {
     console.log('Error. getLogin:', err);
+    res.redirect('/admin');
   }
 };
 
@@ -108,7 +111,11 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.log('Error. processSignup:', err);
-    res.send(err);
+    const message =
+      err instanceof Error ? err.message : Message.SOMETHING_WENT_WRONG;
+    res.send(
+      `<script> alert ("${message}"); window.location.replace('admin/signup ') </script>`,
+    );
     // res.status(500).json({ message: 'Server error', error: err });
   }
 };
@@ -122,6 +129,18 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
  * saqlanib, res.send() bilan clientga qaytariladi.
  * ──────────────────────────────────────────────────────────────────
  */
+restaurantController.logout = async (req: AdminRequest, res: Response) => {
+  try {
+    console.log('logout');
+    req.session.destroy(() => {
+      res.redirect('/admin');
+    });
+  } catch (err) {
+    console.log('Error. logout:', err);
+    res.redirect('/admin');
+  }
+};
+
 restaurantController.processLogin = async (
   req: AdminRequest,
   res: Response,
@@ -140,11 +159,13 @@ restaurantController.processLogin = async (
     req.session.save(function () {
       res.send(result);
     });
-
-    res.send(result);
   } catch (err) {
     console.log('Error. processLogin:', err);
-    res.send(err);
+    const message =
+      err instanceof Error ? err.message : Message.SOMETHING_WENT_WRONG;
+    res.send(
+      `<script> alert ("${message}"); window.location.replace('admin/login') </script>`,
+    );
   }
 };
 

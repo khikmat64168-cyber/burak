@@ -28,3 +28,10 @@ GraphQL API
    Modern FD.     =>  SPA . React 
 
 */
+
+/*
+  
+   requeest join 
+   self destroy 
+
+*/
