@@ -1,3 +1,18 @@
+########### S-TASK ##############
+
+def missingNumber(nomerla):
+  n = len(nomerla)
+  formulasi_misolli = n * (n + 1) // 2
+  aniq_natijasi = sum(nomerla)
+  return formulasi_misolli - aniq_natijasi
+
+print(missingNumber([3, 0, 1]))
+
+
+
+
+
+'''
 ########### R-TASK ##############
 
 def calculate(stringHisoblidigan: str) -> int:
@@ -26,7 +41,7 @@ print(calculate("1 + 3"))
 
 
 
-'''
+
 ########### Q-TASK ##############
 def hasProperty (obj, propertisi):
   return propertisi in obj
