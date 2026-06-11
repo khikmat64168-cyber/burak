@@ -16,22 +16,29 @@
  -error handling standarsi : biz har bir controller methodida try catch bloklarini ishlatamiz va xatoliklarni loglashni ta'minlaymiz. Bu esa bizga xatoliklarni tahlil qilish va muammolarni aniqlashda yordam beradi.    
 */
 
-/* 
+/*  Backend Development 
 Traditional API 
 Rest API
 GraphQL API
 ...
 */
 
-/*
+/*. Front end Development 
    Traditional FD  => SSR .  EJS
    Modern FD.     =>  SPA . React 
 
 */
 
-/*
+/*. Cookies
   
    requeest join 
    self destroy 
+
+*/
+
+/* Validation 
+Frontend Validation
+Backend Validation
+Database  Validation
 
 */
