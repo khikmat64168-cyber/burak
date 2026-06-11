@@ -59,11 +59,23 @@ routerAdmin.get('/check-me', restaurantController.checkAuthSession);
 
 /** Product   */
 
-routerAdmin.get('/product/all', productController.getAllProducts);
+routerAdmin.get(
+  '/product/all',
+  restaurantController.verifyRestaurant,
+  productController.getAllProducts,
+);
 
-routerAdmin.post('/product/create', productController.createNewProduct);
+routerAdmin.post(
+  '/product/create',
+  restaurantController.verifyRestaurant,
+  productController.createNewProduct,
+);
 
-routerAdmin.post('/product/:id ', productController.updateChosenProduct);
+routerAdmin.post(
+  '/product/:id ',
+  restaurantController.verifyRestaurant,
+  productController.updateChosenProduct,
+);
 
 /** User */
 export default routerAdmin;
