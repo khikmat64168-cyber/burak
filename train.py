@@ -1,3 +1,15 @@
+########### T-TASK ##############
+
+def mergeSortedArrays(brinchi, ikinchi):
+  birlashgani = brinchi + ikinchi
+  return sorted(birlashgani)
+
+print(mergeSortedArrays([0, 3, 4], [4, 6]))
+
+
+
+
+'''
 ########### S-TASK ##############
 
 def missingNumber(nomerla):
@@ -12,7 +24,7 @@ print(missingNumber([3, 0, 1]))
 
 
 
-'''
+
 ########### R-TASK ##############
 
 def calculate(stringHisoblidigan: str) -> int:
