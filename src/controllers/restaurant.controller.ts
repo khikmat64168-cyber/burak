@@ -19,7 +19,7 @@ import { T } from '../libs/types/common';
 import MemberService from '../models/Member.service';
 import { AdminRequest, MemberInput, LoginInput } from '../libs/types/members';
 import { MemberType } from '../libs/types/enums/member.enum';
-import { Message } from '../libs/types/Errors';
+import Errors, { HttpCode, Message } from '../libs/types/Errors';
 
 const memberService = new MemberService();
 
@@ -98,8 +98,15 @@ restaurantController.getLogin = (req: Request, res: Response) => {
 restaurantController.processSignup = async (req: Request, res: Response) => {
   try {
     console.log('processSignup');
+    const files = req.files as Express.Multer.File[];
+    const file = files?.[0];
+    if (!file)
+      throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
+
     console.log('body:', req.body);
     const newMember: MemberInput = req.body;
+    newMember.memberImage = file?.path;
+
     newMember.memberType = MemberType.RESTAURANT;
     const result = await memberService.processSignup(newMember);
     // TODO: SESSIONS Authentification
@@ -107,7 +114,7 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
     req.session.member = result;
 
     req.session.save(function () {
-      res.send(result);
+      res.redirect('/admin/product/all');
     });
   } catch (err) {
     console.log('Error. processSignup:', err);
@@ -157,7 +164,7 @@ restaurantController.processLogin = async (
     req.session.member = result;
 
     req.session.save(function () {
-      res.send(result);
+      res.redirect('/admin/product/all');
     });
   } catch (err) {
     console.log('Error. processLogin:', err);
@@ -198,6 +205,17 @@ restaurantController.checkAuthSession = async (
   }
 };
 
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * verifyRestaurant — Express middleware funksiyasi (req, res, next).
+ * next: NextFunction — keyingi middleware yoki controllerni chaqiradi.
+ * req.session?.member?.memberType === MemberType.RESTAURANT tekshiruvi:
+ *   ✅ To'g'ri → req.member ga session dagi foydalanuvchi assign qilinadi
+ *      va next() chaqiriladi — so'rov davom etadi.
+ *   ❌ Noto'g'ri → alert bilan /admin/login ga redirect qilinadi.
+ * Router da: verifyRestaurant → controller tartibida ulanadi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 restaurantController.verifyRestaurant = (
   req: AdminRequest,
   res: Response,

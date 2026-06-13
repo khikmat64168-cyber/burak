@@ -1,3 +1,15 @@
+/**
+ * ┌─────────┐
+ *  │ PHASE 4 │ ─── KOD KETMA-KETLIK OQIMI
+ *  └─────────┘
+ *  ─── KOD TAHLILI ──────────────────────────────────────────────────
+ *  Bu fayl Product (mahsulot) uchun Controller vazifasini bajaradi.
+ *  Router dan kelgan so'rovlarni qabul qilib, biznes logikani
+ *  ProductService ga uzatadi va natijani clientga qaytaradi.
+ *  Oqim: router-admin.ts → [product.controllers.ts] → Product.service.ts → schema
+ *  ──────────────────────────────────────────────────────────────────
+ */
+
 import { Request, Response } from 'express';
 
 import Errors from '../libs/types/Errors';
@@ -5,10 +17,26 @@ import { T } from '../libs/types/common';
 import ProductService from '../models/Product.service';
 import { AdminRequest } from '../libs/types/members';
 
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * productService — ProductService classidan instance yaratiladi.
+ * productController — T tipidagi bo'sh object. Unga metodlar
+ * property sifatida assign qilinadi (restaurantController bilan
+ * bir xil pattern).
+ * ──────────────────────────────────────────────────────────────────
+ */
 const productService = new ProductService();
 
 const productController: T = {};
 
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * getAllProducts — GET /admin/product/all so'rovini qayta ishlaydi.
+ * verifyRestaurant middleware dan o'tib kelgan req da req.member
+ * mavjud bo'ladi (kim so'rov qilayotgani ma'lum).
+ * res.render('products') — products.ejs sahifasini render qiladi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 productController.getAllProducts = async (req: Request, res: Response) => {
   try {
     console.log('getAllProducts');
@@ -21,6 +49,14 @@ productController.getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * createNewProduct — POST /admin/product/create so'rovini qayta
+ * ishlaydi. makeUploader('products').any() middleware dan keyin
+ * ishlaydi — ya'ni req.files ichida yuklangan rasm ma'lumotlari
+ * mavjud bo'ladi. Hozircha faqat 'DONE' qaytaradi (TODO).
+ * ──────────────────────────────────────────────────────────────────
+ */
 productController.createNewProduct = async (req: Request, res: Response) => {
   try {
     console.log('createNewProduct');
@@ -32,6 +68,13 @@ productController.createNewProduct = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * ─── KOD TAHLILI ──────────────────────────────────────────────────
+ * updateChosenProduct — POST /admin/product/:id so'rovini qayta
+ * ishlaydi. makeUploader('products').any() orqali bir nechta
+ * rasm yuklash imkoni bor. req.params.id dan mahsulot IDsi olinadi.
+ * ──────────────────────────────────────────────────────────────────
+ */
 productController.updateChosenProduct = async (req: Request, res: Response) => {
   try {
     console.log('updateChosenProduct');
