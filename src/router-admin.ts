@@ -10,7 +10,7 @@
  *  ──────────────────────────────────────────────────────────────────
  */
 
-import express, { Request, Response } from 'express';
+import express from 'express';
 const routerAdmin = express.Router();
 import restaurantController from './controllers/restaurant.controller';
 import productController from './controllers/product.controllers';
@@ -79,7 +79,7 @@ routerAdmin.post(
 );
 
 routerAdmin.post(
-  '/product/:id ',
+  '/product/:id',
   restaurantController.verifyRestaurant,
   makeUploader('products').any(),
   productController.updateChosenProduct,
