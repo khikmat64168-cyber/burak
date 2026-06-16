@@ -29,10 +29,11 @@ import * as bcrypt from 'bcryptjs';
  * ──────────────────────────────────────────────────────────────────
  */
 class MemberService {
-  private readonly memberModel;
+  // #define — restaurant.controller.ts da new MemberService() qilib chaqiriladi
+  private readonly memberModel; // #define — faqat shu class ichida ishlatiladi (private)
 
   constructor() {
-    this.memberModel = MemberModel;
+    this.memberModel = MemberModel; // #call — Member.model.ts dan import qilingan model
   }
 
   ////////// ======  SPA   ========////////////
@@ -44,6 +45,7 @@ class MemberService {
    * ──────────────────────────────────────────────────────────────────
    */
   public async signup(input: MemberInput): Promise<Member> {
+    // #define — #call: restaurant.controller.ts signup metodida chaqiriladi
     const salt = await bcrypt.genSalt();
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
 
@@ -76,25 +78,28 @@ class MemberService {
    * ──────────────────────────────────────────────────────────────────
    */
   public async login(input: LoginInput): Promise<Member> {
+    // #define — #call: restaurant.controller.ts login metodida chaqiriladi
     //TODO: Consider Member status later
     const member = await this.memberModel
       .findOne(
+        // #call — Member.model.ts (MongoDB) ga so'rov yuboradi
         { memberNick: input.memberNick },
-        { memberPassword: 1, memberNick: 1 },
+        { memberPassword: 1, memberNick: 1 }, // faqat 2 maydon qaytaradi (projection)
       )
       .exec();
-    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);
+    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK); // #call — Errors.ts dan
 
     const isMatch = await bcrypt.compare(
+      // #call — bcryptjs kutubxonasidan
       input.memberPassword,
       member.memberPassword,
     );
     console.log('isMatch:', isMatch);
 
     if (!isMatch)
-      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
+      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD); // #call — Errors.ts dan
 
-    return await this.memberModel.findById(member._id).lean().exec();
+    return await this.memberModel.findById(member._id).lean().exec(); // #call — Member.model.ts (MongoDB)
   }
 
   ////////// ======  SSR  ========////////////
@@ -106,6 +111,7 @@ class MemberService {
    * ──────────────────────────────────────────────────────────────────
    */
   public async processSignup(input: MemberInput): Promise<Member> {
+    // #define — #call: restaurant.controller.ts processSignup da chaqiriladi
     // const exist = await this.memberModel
     //   .findOne({ memberType: MemberType.RESTAURANT })
     //   .exec();
@@ -121,8 +127,8 @@ class MemberService {
      * ──────────────────────────────────────────────────────────────────
      */
     console.log(' before:', input.memberPassword);
-    const salt = await bcrypt.genSalt();
-    input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
+    const salt = await bcrypt.genSalt(); // #call — bcryptjs: tasodifiy "tuz" generatsiya qiladi
+    input.memberPassword = await bcrypt.hash(input.memberPassword, salt); // #call — bcryptjs: parolni hash ga aylantiradi
     console.log(' after:', input.memberPassword);
 
     /**
@@ -134,13 +140,13 @@ class MemberService {
      * ──────────────────────────────────────────────────────────────────
      */
     try {
-      const result = await this.memberModel.create(input);
+      const result = await this.memberModel.create(input); // #call — Member.model.ts (MongoDB) ga yozadi
       console.log('Passed here');
 
-      result.memberPassword = '';
+      result.memberPassword = ''; // parol response ga chiqmasin deb tozalanadi
       return result;
     } catch (err) {
-      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED); // #call — Errors.ts dan
     }
   }
 
@@ -153,11 +159,12 @@ class MemberService {
    * ──────────────────────────────────────────────────────────────────
    */
   public async processLogin(input: LoginInput): Promise<Member> {
+    // #define — #call: restaurant.controller.ts processLogin da chaqiriladi
     const member = await this.memberModel
-      .findOne({ memberNick: input.memberNick })
-      .select('+memberPassword')
+      .findOne({ memberNick: input.memberNick }) // #call — Member.model.ts (MongoDB): nick bo'yicha qidiradi
+      .select('+memberPassword') // memberPassword schema da select:false, shuning uchun qo'lda so'rash kerak
       .exec();
-    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);
+    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK); // #call — Errors.ts dan
 
     /**
      * ─── KOD TAHLILI ──────────────────────────────────────────────────
@@ -181,7 +188,16 @@ class MemberService {
      * to'liq hujjatni bazadan qayta so'raymiz va await orqali qaytaramiz.
      * ──────────────────────────────────────────────────────────────────
      */
-    return await this.memberModel.findById(member._id).exec();
+    return await this.memberModel.findById(member._id).exec(); // #call — Member.model.ts (MongoDB): to'liq profil qaytaradi
+  }
+
+  public async getUsers(): Promise<Member[]> {
+    const result = await this.memberModel
+      .find({ memberType: MemberType.USER })
+      .exec();
+
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
   }
 }
 

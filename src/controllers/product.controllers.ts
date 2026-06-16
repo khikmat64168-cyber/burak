@@ -26,9 +26,9 @@ import { ProductInput } from '../libs/types/product';
  * bir xil pattern).
  * ──────────────────────────────────────────────────────────────────
  */
-const productService = new ProductService();
+const productService = new ProductService(); // #call — Product.service.ts dan instance yaratildi
 
-const productController: T = {};
+const productController: T = {}; // #define — router-admin.ts da import qilib ishlatiladi
 /** SPA */
 
 /** SSR */
@@ -41,13 +41,13 @@ const productController: T = {};
  * res.render('products') — products.ejs sahifasini render qiladi.
  * ──────────────────────────────────────────────────────────────────
  */
-productController.getAllProducts = async (req: Request, res: Response) => {
+productController.getAllProducts = async (req: Request, res: Response) => { // #define — #call: router-admin.ts GET '/product/all' da chaqiriladi
   try {
     console.log('getAllProducts');
-    const data = await productService.getAllProducts();
+    const data = await productService.getAllProducts(); // #call — Product.service.ts getAllProducts metodini chaqiradi
     console.log('data:', data);
 
-    res.render('products', { products: data });
+    res.render('products', { products: data }); // #call — products.ejs sahifasini render qiladi
   } catch (err) {
     console.log('Error, getAllProducts:', err);
     if (err instanceof Errors) res.status(err.code).json(err);
@@ -63,7 +63,7 @@ productController.getAllProducts = async (req: Request, res: Response) => {
  * mavjud bo'ladi. Hozircha faqat 'DONE' qaytaradi (TODO).
  * ──────────────────────────────────────────────────────────────────
  */
-productController.createNewProduct = async (
+productController.createNewProduct = async ( // #define — #call: router-admin.ts POST '/product/create' da chaqiriladi
   req: AdminRequest,
   res: Response,
 ) => {
@@ -78,7 +78,7 @@ productController.createNewProduct = async (
       return ele.path.replace(/\\/g, '/');
     });
 
-    await productService.createNewProduct(data);
+    await productService.createNewProduct(data); // #call — Product.service.ts createNewProduct metodini chaqiradi
     console.log('date:', data);
     res.send(
       `<script> alert ("Successful creation"); window.location.replace('admin/product/all') </script>`,
@@ -103,13 +103,13 @@ productController.createNewProduct = async (
  * rasm yuklash imkoni bor. req.params.id dan mahsulot IDsi olinadi.
  * ──────────────────────────────────────────────────────────────────
  */
-productController.updateChosenProduct = async (req: Request, res: Response) => {
+productController.updateChosenProduct = async (req: Request, res: Response) => { // #define — #call: router-admin.ts POST '/product/:id' da chaqiriladi
   try {
     console.log('updateChosenProduct');
-    const id = req.params.id as string;
+    const id = req.params.id as string; // URL dagi :id parametrini string sifatida oladi
     console.log('id:', id);
 
-    const result = await productService.updateChosenProduct(id, req.body);
+    const result = await productService.updateChosenProduct(id, req.body); // #call — Product.service.ts updateChosenProduct metodini chaqiradi
 
     res.status(HttpCode.OK).json({ data: result });
   } catch (err) {

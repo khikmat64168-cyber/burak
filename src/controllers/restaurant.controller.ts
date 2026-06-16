@@ -21,7 +21,7 @@ import { AdminRequest, MemberInput, LoginInput } from '../libs/types/members';
 import { MemberType } from '../libs/types/enums/member.enum';
 import Errors, { HttpCode, Message } from '../libs/types/Errors';
 
-const memberService = new MemberService();
+const memberService = new MemberService(); // #call — Member.service.ts dan instance yaratildi
 
 /**
  * ─── KOD TAHLILI ──────────────────────────────────────────────────
@@ -32,7 +32,7 @@ const memberService = new MemberService();
  * assign qilinadi.
  * ──────────────────────────────────────────────────────────────────
  */
-const restaurantController: T = {};
+const restaurantController: T = {}; // #define — router-admin.ts da import qilib ishlatiladi
 
 /**
  * ─── KOD TAHLILI ──────────────────────────────────────────────────
@@ -43,6 +43,7 @@ const restaurantController: T = {};
  * ──────────────────────────────────────────────────────────────────
  */
 restaurantController.goHome = (req: Request, res: Response) => {
+  // #define — #call: router-admin.ts GET '/' da chaqiriladi
   try {
     res.render('home');
     //response turlari : send , json , render , redirect ,  end
@@ -59,6 +60,7 @@ restaurantController.goHome = (req: Request, res: Response) => {
  * ──────────────────────────────────────────────────────────────────
  */
 restaurantController.getSignup = (req: Request, res: Response) => {
+  // #define — #call: router-admin.ts GET '/signup' da chaqiriladi
   try {
     console.log('getSignup');
     res.render('signup');
@@ -75,6 +77,7 @@ restaurantController.getSignup = (req: Request, res: Response) => {
  * ──────────────────────────────────────────────────────────────────
  */
 restaurantController.getLogin = (req: Request, res: Response) => {
+  // #define — #call: router-admin.ts GET '/login' da chaqiriladi
   try {
     console.log('getLogin');
     res.render('login');
@@ -96,6 +99,7 @@ restaurantController.getLogin = (req: Request, res: Response) => {
  * ──────────────────────────────────────────────────────────────────
  */
 restaurantController.processSignup = async (req: Request, res: Response) => {
+  // #define — #call: router-admin.ts POST '/signup' da chaqiriladi
   try {
     console.log('processSignup');
     const files = req.files as Express.Multer.File[];
@@ -108,7 +112,7 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
     newMember.memberImage = file?.path.replace(/\\/g, '/');
 
     newMember.memberType = MemberType.RESTAURANT;
-    const result = await memberService.processSignup(newMember);
+    const result = await memberService.processSignup(newMember); // #call — Member.service.ts processSignup metodini chaqiradi
     // TODO: SESSIONS Authentification
 
     req.session.member = result;
@@ -137,6 +141,7 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
  * ──────────────────────────────────────────────────────────────────
  */
 restaurantController.logout = async (req: AdminRequest, res: Response) => {
+  // #define — #call: router-admin.ts GET '/logout' da chaqiriladi
   try {
     console.log('logout');
     req.session.destroy(() => {
@@ -148,7 +153,29 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
   }
 };
 
+restaurantController.getUsers = async (req: Request, res: Response) => {
+  try {
+    console.log('getUsers');
+    const result = await memberService.getUsers();
+    console.log('result:', result);
+
+    res.render('users', { users: result });
+  } catch (err) {
+    console.log('Error. getUsers:', err);
+    res.redirect('/admin/login');
+  }
+};
+
+restaurantController.updateChosenUser = (req: Request, res: Response) => {
+  try {
+    console.log('updateChosenUser');
+  } catch (err) {
+    console.log('Error. updateChosenUser:', err);
+  }
+};
+
 restaurantController.processLogin = async (
+  // #define — #call: router-admin.ts POST '/login' da chaqiriladi
   req: AdminRequest,
   res: Response,
 ) => {
@@ -157,7 +184,7 @@ restaurantController.processLogin = async (
     console.log('body:', req.body);
     const input: LoginInput = req.body;
 
-    const result = await memberService.processLogin(input);
+    const result = await memberService.processLogin(input); // #call — Member.service.ts processLogin metodini chaqiradi
 
     // TODO: SESSIONS Authentification
 
@@ -177,6 +204,7 @@ restaurantController.processLogin = async (
 };
 
 restaurantController.checkAuthSession = async (
+  // #define — #call: router-admin.ts GET '/check-me' da chaqiriladi
   req: AdminRequest,
   res: Response,
 ) => {
@@ -217,6 +245,7 @@ restaurantController.checkAuthSession = async (
  * ──────────────────────────────────────────────────────────────────
  */
 restaurantController.verifyRestaurant = (
+  // #define — #call: router-admin.ts barcha /product/* routelarda middleware sifatida chaqiriladi
   req: AdminRequest,
   res: Response,
   next: NextFunction,
