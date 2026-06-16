@@ -21,7 +21,8 @@ declare module 'express-session' {
   }
 }
 
-export interface Member { // #define — Member.service.ts, restaurant.controller.ts, members.ts da ishlatiladi
+export interface Member {
+  // #define — Member.service.ts, restaurant.controller.ts, members.ts da ishlatiladi
   _id: Objectid;
   memberType: MemberType;
   memberStatus?: MemberStatus;
@@ -36,7 +37,8 @@ export interface Member { // #define — Member.service.ts, restaurant.controlle
   updatedAt: Date;
 }
 
-export interface MemberInput { // #define — processSignup da req.body tipi sifatida ishlatiladi
+export interface MemberInput {
+  // #define — processSignup da req.body tipi sifatida ishlatiladi
   memberType?: MemberType;
   memberStatus?: MemberStatus;
   memberNick: string;
@@ -48,12 +50,26 @@ export interface MemberInput { // #define — processSignup da req.body tipi sif
   memberPoints?: number;
 }
 
-export interface LoginInput { // #define — processLogin da req.body tipi sifatida ishlatiladi
+export interface LoginInput {
+  // #define — processLogin da req.body tipi sifatida ishlatiladi
   memberNick: string;
   memberPassword: string;
 }
 
-export interface AdminRequest extends Request { // #define — controller larda req tipi sifatida ishlatiladi
+export interface MemberUpdateInput {
+  _id: Objectid;
+
+  memberStatus?: MemberStatus;
+  memberNick?: string;
+  memberPhone?: string;
+  memberPassword?: string;
+  memberAddress?: string;
+  memberDesc?: string;
+  memberImage?: string;
+}
+
+export interface AdminRequest extends Request {
+  // #define — controller larda req tipi sifatida ishlatiladi
   member: Member;
   session: Session & { member: Member };
   file: Express.Multer.File;

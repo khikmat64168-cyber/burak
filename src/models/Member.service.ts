@@ -13,11 +13,17 @@
 
 ///// Modullar :schema yoki service farqi yo'q classdan tashkil topga n bo'ladi
 
-import { MemberInput, Member, LoginInput } from '../libs/types/members';
+import {
+  MemberInput,
+  Member,
+  LoginInput,
+  MemberUpdateInput,
+} from '../libs/types/members';
 import MemberModel from '../schema/Member.model';
 import Errors, { HttpCode, Message } from '../libs/types/Errors';
 import { MemberType } from '../libs/types/enums/member.enum';
 import * as bcrypt from 'bcryptjs';
+import { shapeIntoMongooseObjectId } from '../libs/types/config';
 
 /**
  * ─── KOD TAHLILI ──────────────────────────────────────────────────
@@ -197,6 +203,15 @@ class MemberService {
       .exec();
 
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  }
+  public async updateChosenUser(input: MemberUpdateInput): Promise<Member> {
+    input._id = shapeIntoMongooseObjectId(input._id);
+    const result = await this.memberModel
+      .findByIdAndUpdate({ _id: input._id }, input, { new: true })
+      .exec();
+
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
     return result;
   }
 }
