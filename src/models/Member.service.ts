@@ -211,7 +211,7 @@ class MemberService {
       .findByIdAndUpdate({ _id: input._id }, input, { new: true })
       .exec();
 
-    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+    if (!result) throw new Errors(HttpCode.BAD_REQUEST, Message.UPDATE_FAILED);
     return result;
   }
 }
