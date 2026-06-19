@@ -102,6 +102,8 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
   // #define — #call: router-admin.ts POST '/signup' da chaqiriladi
   try {
     console.log('processSignup');
+
+    console.log('req.body:', req.body);
     const files = req.files as Express.Multer.File[];
     const file = files?.[0];
     if (!file)
@@ -166,11 +168,15 @@ restaurantController.getUsers = async (req: Request, res: Response) => {
   }
 };
 
-restaurantController.updateChosenUser = async (req: Request, res: Response) => {
+restaurantController.updateChosenUser = async (
+  req: AdminRequest,
+  res: Response,
+) => {
   try {
-    console.log('updateChosenUser');
+    console.log('updateChosenUser=>  i am here');
 
     const result = await memberService.updateChosenUser(req.body);
+    console.log('updateChosenUser:', result);
 
     res.status(HttpCode.OK).json({ data: result });
   } catch (err) {
