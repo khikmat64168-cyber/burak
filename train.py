@@ -1,3 +1,28 @@
+########### V -TASK ##############
+
+def countChars(stringimiz):
+  result = {}
+  for harf in stringimiz:
+    result[harf] = result.get(harf, 0) + 1
+  return result
+  
+print(countChars("hello"))
+print(countChars("salom"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''. 
 ########### T-TASK ##############
 
 def mergeSortedArrays(brinchi, ikinchi):
@@ -9,7 +34,7 @@ print(mergeSortedArrays([0, 3, 4], [4, 6]))
 
 
 
-'''
+
 ########### S-TASK ##############
 
 def missingNumber(nomerla):
