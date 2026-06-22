@@ -41,7 +41,8 @@ const productController: T = {}; // #define — router-admin.ts da import qilib 
  * res.render('products') — products.ejs sahifasini render qiladi.
  * ──────────────────────────────────────────────────────────────────
  */
-productController.getAllProducts = async (req: Request, res: Response) => { // #define — #call: router-admin.ts GET '/product/all' da chaqiriladi
+productController.getAllProducts = async (req: Request, res: Response) => {
+  // #define — #call: router-admin.ts GET '/product/all' da chaqiriladi
   try {
     console.log('getAllProducts');
     const data = await productService.getAllProducts(); // #call — Product.service.ts getAllProducts metodini chaqiradi
@@ -63,7 +64,8 @@ productController.getAllProducts = async (req: Request, res: Response) => { // #
  * mavjud bo'ladi. Hozircha faqat 'DONE' qaytaradi (TODO).
  * ──────────────────────────────────────────────────────────────────
  */
-productController.createNewProduct = async ( // #define — #call: router-admin.ts POST '/product/create' da chaqiriladi
+productController.createNewProduct = async (
+  // #define — #call: router-admin.ts POST '/product/create' da chaqiriladi
   req: AdminRequest,
   res: Response,
 ) => {
@@ -81,7 +83,7 @@ productController.createNewProduct = async ( // #define — #call: router-admin.
     await productService.createNewProduct(data); // #call — Product.service.ts createNewProduct metodini chaqiradi
     console.log('date:', data);
     res.send(
-      `<script> alert ("Successful creation"); window.location.replace('admin/product/all') </script>`,
+      `<script> alert ("Successful creation"); window.location.replace('/admin/product/all') </script>`,
     );
   } catch (err) {
     console.log('Error, createNewProduct:', err);
@@ -91,7 +93,7 @@ productController.createNewProduct = async ( // #define — #call: router-admin.
     // if (err instanceof Errors) res.status(err.code).json(err);
     // else res.status(Errors.standard.code).json;
     res.send(
-      `<script> alert ("${message}"); window.location.replace('admin/product/all') </script>`,
+      `<script> alert ("${message}"); window.location.replace('/admin/product/all') </script>`,
     );
   }
 };
@@ -103,7 +105,8 @@ productController.createNewProduct = async ( // #define — #call: router-admin.
  * rasm yuklash imkoni bor. req.params.id dan mahsulot IDsi olinadi.
  * ──────────────────────────────────────────────────────────────────
  */
-productController.updateChosenProduct = async (req: Request, res: Response) => { // #define — #call: router-admin.ts POST '/product/:id' da chaqiriladi
+productController.updateChosenProduct = async (req: Request, res: Response) => {
+  // #define — #call: router-admin.ts POST '/product/:id' da chaqiriladi
   try {
     console.log('updateChosenProduct');
     const id = req.params.id as string; // URL dagi :id parametrini string sifatida oladi

@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import multer from 'multer';
 import { v4 } from 'uuid';
 
@@ -14,7 +15,9 @@ import { v4 } from 'uuid';
 function getTargetImageStorage(address: any) {
   return multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, `./uploads/${address}`);
+      const dir = `./uploads/${address}`;
+      fs.mkdirSync(dir, { recursive: true }); // papka bo'lmasa avtomatik yaratadi (ENOENT oldini oladi)
+      cb(null, dir);
     },
 
     /**

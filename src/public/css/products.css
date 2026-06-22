@@ -69,13 +69,13 @@
   height: auto;
 
   /* TODO: UNCOMMENT */
-  /*display: none;*/
+  display: none;
   flex-direction: column;
   align-items: center;
 }
 
 .products-container .new-dish-txt {
-  font-family: "Source Serif Pro";
+  font-family: 'Source Serif Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 30px;
@@ -93,7 +93,7 @@
 }
 
 .products-container .long-input label {
-  font-family: "Source Serif Pro";
+  font-family: 'Source Serif Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -111,7 +111,7 @@
   background: #f7f7f7;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
-  font-family: "GT Walsheim Pro";
+  font-family: 'GT Walsheim Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -129,7 +129,7 @@
   background: #f7f7f7;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
-  font-family: "GT Walsheim Pro";
+  font-family: 'GT Walsheim Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -148,7 +148,7 @@
   background: #f7f7f7;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
-  font-family: "GT Walsheim Pro";
+  font-family: 'GT Walsheim Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -172,7 +172,7 @@
   background: #f7f7f7;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
-  font-family: "GT Walsheim Pro";
+  font-family: 'GT Walsheim Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -199,7 +199,7 @@
 }
 
 .products-container .half-input label {
-  font-family: "Source Serif Pro";
+  font-family: 'Source Serif Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -257,7 +257,7 @@
 
 .products-container .img-frame label {
   margin-top: 30px;
-  font-family: "Source Serif Pro";
+  font-family: 'Source Serif Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -293,7 +293,7 @@
   background: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 8px;
-  font-family: "GT Walsheim Pro";
+  font-family: 'GT Walsheim Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -334,7 +334,7 @@ table th {
 
 .products-container .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 14px;
   width: 14px;
   left: 6px;
