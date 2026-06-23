@@ -1,3 +1,21 @@
+########### W -TASK ##############
+
+def chunk_array(array, uzunligi):
+  result = []
+  for a in range(0, len(array), uzunligi):
+    result.append(array[a:a + uzunligi])
+  return result
+
+print(chunk_array([1, 2, 3, 4, 5], 2))
+
+
+
+
+
+
+
+
+'''
 ########### V -TASK ##############
 
 def countChars(stringimiz):
@@ -12,17 +30,7 @@ print(countChars("salom"))
 
 
 
-
-
-
-
-
-
-
-
-
-
-'''. 
+. 
 ########### T-TASK ##############
 
 def mergeSortedArrays(brinchi, ikinchi):
