@@ -21,7 +21,7 @@ import {
 } from '../libs/types/members';
 import MemberModel from '../schema/Member.model';
 import Errors, { HttpCode, Message } from '../libs/types/Errors';
-import { MemberType } from '../libs/types/enums/member.enum';
+import { MemberStatus, MemberType } from '../libs/types/enums/member.enum';
 import * as bcrypt from 'bcryptjs';
 import { shapeIntoMongooseObjectId } from '../libs/types/config';
 
@@ -89,11 +89,20 @@ class MemberService {
     const member = await this.memberModel
       .findOne(
         // #call — Member.model.ts (MongoDB) ga so'rov yuboradi
-        { memberNick: input.memberNick },
-        { memberPassword: 1, memberNick: 1 }, // faqat 2 maydon qaytaradi (projection)
+        {
+          memberNick: input.memberNick,
+          memberStatus: { $ne: MemberStatus.DELETE },
+        },
+        { memberPassword: 1, memberNick: 1, memberStatus: 1 }, // memberStatus ham qaytarilishi shart (blok tekshiruvi uchun)
       )
       .exec();
-    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK); // #call — Errors.ts dan
+    if (!member)
+      throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK); // #call — Errors.ts dan
+    else if (member.memberStatus === MemberStatus.BLOCK) {
+      throw new Errors(HttpCode.FORBIDDEN, Message.BLOCKED_USER);
+    }
+
+    console.log('member:', member);
 
     const isMatch = await bcrypt.compare(
       // #call — bcryptjs kutubxonasidan
