@@ -82,6 +82,16 @@ productController.createNewProduct = async (
 
     await productService.createNewProduct(data); // #call — Product.service.ts createNewProduct metodini chaqiradi
     console.log('date:', data);
+    /**
+     * ─── KOD TAHLILI ──────────────────────────────────────────────────
+     * Muvaffaqiyatli yaratilgach, brauzerga alert + redirect skripti
+     * yuboriladi. window.location.replace('/admin/product/all') —
+     * yo'l '/' bilan boshlangani uchun ABSOLYUT: domen ildizidan
+     * hisoblanadi. Agar '/' bo'lmasa (nisbiy 'admin/product/all'), u
+     * joriy /admin/product/create sahifasiga qo'shilib,
+     * /admin/product/admin/product/all → 404 xatosini berardi.
+     * ──────────────────────────────────────────────────────────────────
+     */
     res.send(
       `<script> alert ("Successful creation"); window.location.replace('/admin/product/all') </script>`,
     );

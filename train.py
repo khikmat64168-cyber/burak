@@ -1,3 +1,24 @@
+########### X -TASK ##############
+def countOccurences(obyekt, key):
+  count = 0
+  
+  if isinstance(obyekt, dict): 
+    for a, b in obyekt.items():
+      if a == key:
+        count += 1
+      count += countOccurences(b, key)
+  elif isinstance(obyekt, list):
+    for item in obyekt:
+      count += countOccurences(item, key) 
+  
+  return count
+
+
+print(countOccurences({"model": "A", "s": {"model": "B"}}, "model"))
+
+
+
+'''
 ########### W -TASK ##############
 
 def chunk_array(array, uzunligi):
@@ -15,7 +36,7 @@ print(chunk_array([1, 2, 3, 4, 5], 2))
 
 
 
-'''
+
 ########### V -TASK ##############
 
 def countChars(stringimiz):

@@ -14,6 +14,18 @@ import { v4 } from 'uuid';
  */
 function getTargetImageStorage(address: any) {
   return multer.diskStorage({
+    /**
+     * ─── KOD TAHLILI ──────────────────────────────────────────────────
+     * destination — yuklangan fayl saqlanadigan papkani belgilaydi.
+     * multer mavjud bo'lmagan papkaga yoza olmaydi va
+     * "ENOENT: no such file or directory" xatosini beradi. Shuning uchun
+     * cb() ga yo'l berishdan oldin fs.mkdirSync(dir, { recursive: true })
+     * bilan papkani avtomatik yaratamiz:
+     *   recursive: true → papka bo'lsa hech narsa qilmaydi (xato bermaydi),
+     *   bo'lmasa (hatto uploads/ ham yo'q bo'lsa) ketma-ket hammasini yaratadi.
+     * Natijada qo'lda papka yaratish yoki .gitkeep kerak bo'lmaydi.
+     * ──────────────────────────────────────────────────────────────────
+     */
     destination: function (req, file, cb) {
       const dir = `./uploads/${address}`;
       fs.mkdirSync(dir, { recursive: true }); // papka bo'lmasa avtomatik yaratadi (ENOENT oldini oladi)

@@ -50,6 +50,8 @@ memberController.login = async (req: Request, res: Response) => {
     const input: LoginInput = req.body,
       result = await memberService.login(input);
     res.json({ member: result });
+
+    //TODO: TOKENS
   } catch (err) {
     console.log('Error, login:', err);
 

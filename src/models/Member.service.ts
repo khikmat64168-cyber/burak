@@ -96,6 +96,21 @@ class MemberService {
         { memberPassword: 1, memberNick: 1, memberStatus: 1 }, // memberStatus ham qaytarilishi shart (blok tekshiruvi uchun)
       )
       .exec();
+    /**
+     * ─── KOD TAHLILI ──────────────────────────────────────────────────
+     * Status tekshiruvi (yangi mantiq):
+     *   1. Nick topilmasa → NOT_FOUND (NO_MEMBER_NICK).
+     *   2. Topilgan a'zoning memberStatus === BLOCK bo'lsa → login rad
+     *      etiladi: 403 FORBIDDEN (BLOCKED_USER).
+     * MUHIM: yuqoridagi findOne projection da memberStatus AYNAN shu nom
+     * bilan (kichik m) so'ralishi shart. Inclusion projection { x: 1 } da
+     * maydon nomi xato yozilsa (masalan MemberStatus), MongoDB uni jim
+     * e'tiborsiz qoldiradi → member.memberStatus = undefined bo'lib,
+     * "undefined === 'BLOCK'" har doim false → blok tekshiruvi ishlamaydi.
+     * Yana findOne filtrida memberStatus !== DELETE — o'chirilgan a'zolar
+     * umuman qidiruvga tushmaydi.
+     * ──────────────────────────────────────────────────────────────────
+     */
     if (!member)
       throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK); // #call — Errors.ts dan
     else if (member.memberStatus === MemberStatus.BLOCK) {
