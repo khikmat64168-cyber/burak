@@ -1,3 +1,13 @@
+########### Y -TASK ##############
+
+def findIntersection(errey1, errey2):
+  return list(set(errey1) & set(errey2))
+
+print(findIntersection([1,2,3],[3,2,0]))
+
+
+
+'''
 ########### X -TASK ##############
 def countOccurences(obyekt, key):
   count = 0
@@ -18,7 +28,7 @@ print(countOccurences({"model": "A", "s": {"model": "B"}}, "model"))
 
 
 
-'''
+
 ########### W -TASK ##############
 
 def chunk_array(array, uzunligi):
