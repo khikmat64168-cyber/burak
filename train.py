@@ -1,3 +1,20 @@
+########### Z -TASK ##############
+
+
+def sumEven(arrey):
+  qoshilgani = 0
+  for son in arrey:
+    if son % 2 == 0:
+      qoshilgani += son
+  return qoshilgani
+
+print(sumEven([1, 2, 3]))
+
+
+
+
+
+'''
 ########### Y -TASK ##############
 
 def findIntersection(errey1, errey2):
@@ -7,7 +24,7 @@ print(findIntersection([1,2,3],[3,2,0]))
 
 
 
-'''
+
 ########### X -TASK ##############
 def countOccurences(obyekt, key):
   count = 0
