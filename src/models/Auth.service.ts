@@ -5,6 +5,9 @@ import Errors from '../libs/types/Errors';
 import { HttpCode, Message } from '../libs/types/Errors';
 
 class AuthService {
+  retrieveAuth(token: any): any {
+    throw new Error('Method not implemented.');
+  }
   private readonly secretToken;
   constructor() {
     this.secretToken = process.env.SECRET_TOKEN as string;
@@ -35,6 +38,7 @@ class AuthService {
           return reject(
             new Errors(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED),
           );
+        console.log('err:', err);
         const result = decoded as Member;
         console.log(`----- [AUTH] memberNick: ${result.memberNick} -----`);
         resolve(result);

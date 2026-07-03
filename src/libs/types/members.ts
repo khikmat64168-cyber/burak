@@ -75,3 +75,10 @@ export interface AdminRequest extends Request {
   file: Express.Multer.File;
   files: Express.Multer.File[];
 }
+
+export interface ExtendedRequest extends Request {
+  // #define — controller larda req tipi sifatida ishlatiladi
+  member: Member;
+  file: Express.Multer.File;
+  files: Express.Multer.File[];
+}
