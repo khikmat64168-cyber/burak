@@ -10,7 +10,9 @@
  *  ──────────────────────────────────────────────────────────────────
  */
 
-import { Objectid } from 'mongodb';
+// If @types/mongodb is not installed, fall back to any to avoid TS errors.
+// When @types/mongodb is available, replace this with: import { ObjectId } from 'mongodb';
+type ObjectId = any;
 import { MemberType, MemberStatus } from './enums/member.enum';
 import { Request } from 'express';
 import { Session } from 'express-session';
@@ -23,7 +25,7 @@ declare module 'express-session' {
 
 export interface Member {
   // #define — Member.service.ts, restaurant.controller.ts, members.ts da ishlatiladi
-  _id: Objectid;
+  _id: ObjectId;
   memberType: MemberType;
   memberStatus?: MemberStatus;
   memberNick: string;
@@ -57,7 +59,7 @@ export interface LoginInput {
 }
 
 export interface MemberUpdateInput {
-  _id: Objectid;
+  _id: ObjectId;
 
   memberStatus?: MemberStatus;
   memberNick?: string;
@@ -77,7 +79,6 @@ export interface AdminRequest extends Request {
 }
 
 export interface ExtendedRequest extends Request {
-  // #define — controller larda req tipi sifatida ishlatiladi
   member: Member;
   file: Express.Multer.File;
   files: Express.Multer.File[];
