@@ -60,6 +60,8 @@ app.use(express.static(path.join(__dirname, 'public')));
  * body sini parse qilib req.body ga joylaydi.
  * ──────────────────────────────────────────────────────────────────
  */
+
+app.use('/uploads', express.static('./uploads'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

@@ -11,9 +11,9 @@
  */
 
 import express, { Request, Response } from 'express';
+import uploader from './libs/types/utils/uploader';
 const router = express.Router();
 import memberController from './controllers/member.controller';
-
 // router.get(
 //   '/',
 //   //    (req: Request, res: Response) => {
@@ -55,6 +55,13 @@ router.get(
   '/member/detail',
   memberController.verifyAuth,
   memberController.getMemberDetail,
+);
+
+router.post(
+  '/member/update',
+  memberController.verifyAuth,
+  uploader('members').single('memberImage'),
+  memberController.updateMember,
 );
 
 /**. Product */
