@@ -14,6 +14,7 @@ import express, { Request, Response } from 'express';
 import uploader from './libs/types/utils/uploader';
 const router = express.Router();
 import memberController from './controllers/member.controller';
+import productController from './controllers/product.controllers';
 // router.get(
 //   '/',
 //   //    (req: Request, res: Response) => {
@@ -67,6 +68,8 @@ router.post(
 router.get('/member/top-users', memberController.getTopUsers);
 
 /**. Product */
+
+router.get('/product/all', productController.getProducts);
 
 /**. Order */
 

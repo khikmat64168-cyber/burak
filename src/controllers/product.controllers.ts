@@ -16,7 +16,8 @@ import Errors, { HttpCode, Message } from '../libs/types/Errors';
 import { T } from '../libs/types/common';
 import ProductService from '../models/Product.service';
 import { AdminRequest } from '../libs/types/members';
-import { ProductInput } from '../libs/types/product';
+import { ProductInput, ProductInquery } from '../libs/types/product';
+import { ProductCollection } from '../libs/types/enums/product.enum';
 
 /**
  * ─── KOD TAHLILI ──────────────────────────────────────────────────
@@ -30,7 +31,35 @@ const productService = new ProductService(); // #call — Product.service.ts dan
 
 const productController: T = {}; // #define — router-admin.ts da import qilib ishlatiladi
 /** SPA */
+productController.getProducts = async (req: Request, res: Response) => {
+  try {
+    console.log('getProducts');
+    // const query = req.query;
+    // console.log('req.query:', query);
 
+    // const params = req.params;
+    // console.log('req.params:', params);
+
+    const { page, limit, order, productCollection, search } = req.query;
+
+    const inquery: ProductInquery = {
+      order: String(order),
+      page: Number(page),
+      limit: Number(limit),
+    };
+    if (productCollection)
+      inquery.productCollection = productCollection as ProductCollection;
+    if (search) inquery.search = String(search);
+
+    const result = await productService.getProducts(inquery); // #call — Product.service.ts getProducts metodini chaqiradi
+
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log('Error, getProducts:', err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json;
+  }
+};
 /** SSR */
 
 /**
