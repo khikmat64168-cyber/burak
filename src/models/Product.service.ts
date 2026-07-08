@@ -21,6 +21,8 @@ import {
   ProductUpdateInput,
 } from '../libs/types/product';
 import ProductModel from '../schema/Product.model';
+import { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 
 /**
  * ─── KOD TAHLILI ──────────────────────────────────────────────────
@@ -48,7 +50,7 @@ class ProductService {
       match.productName = { $regex: inquery.search, $options: 'i' }; // #call — MongoDB regex: case-insensitive search
     }
     const sort: T =
-      inquery.order === 'productPrice'
+      inquery.order === 'fproductPrice'
         ? { [inquery.order]: 1 }
         : { [inquery.order]: -1 }; // #define — MongoDB sort: productPrice bo'yicha o'sish tartibi, boshqa maydonlar bo'yicha kamayish tartibi
 
@@ -56,12 +58,30 @@ class ProductService {
       .aggregate([
         { $match: match },
         { $sort: sort },
-        { $skip: (inquery.page * 1 - 1) * inquery.limit }, //
+        { $skip: (inquery.page * 1 - 1) * inquery.limit }, // 1 => 0, 2 => 3, 3 => 6
         { $limit: inquery.limit * 1 }, // 3  => 4,5,6
       ])
       .exec(); // #call — Product.model.ts (MongoDB): barcha mahsulotlarni qaytaradi
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND); // #call — Errors.ts dan
-    return [];
+    return result;
+  }
+
+  public async getProduct(
+    memberId: ObjectId | null,
+    id: string,
+  ): Promise<void> {
+    const productId = shapeIntoMongooseObjectId(id);
+    let result = await this.productModel
+      .findOne({
+        _id: productId,
+        productStatus: ProductStatus.PROCESS,
+      })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    //TO DO : If authenticated users => first => view log creation
+
+    return result;
   }
 
   /** SSR */
