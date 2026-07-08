@@ -23,6 +23,9 @@ import {
 import ProductModel from '../schema/Product.model';
 import { ObjectId } from 'mongoose';
 import mongoose from 'mongoose';
+import ViewService from './View.service';
+import { View, ViewInput } from '../libs/types/view';
+import { ViewGroup } from '../libs/types/enums/view.enum';
 
 /**
  * ─── KOD TAHLILI ──────────────────────────────────────────────────
@@ -35,9 +38,11 @@ import mongoose from 'mongoose';
 class ProductService {
   // #define — product.controllers.ts da new ProductService() qilib chaqiriladi
   private readonly productModel; // #define — faqat shu class ichida ishlatiladi (private)
+  public viewService;
 
   constructor() {
     this.productModel = ProductModel; // #call — Product.model.ts dan import qilingan model
+    this.viewService = new ViewService();
   }
 
   /** SPA */
@@ -78,6 +83,34 @@ class ProductService {
       })
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    if (memberId) {
+      //Check existence
+
+      const input: ViewInput = {
+        memberId: memberId,
+        viewRefId: productId,
+        viewGroup: ViewGroup.PRODUCT,
+      };
+      const existView = await this.viewService.checkViewExistence(input);
+
+      console.log('exist:', !!existView);
+      if (!existView) {
+        //Insert New view log
+
+        console.log('PLANNING TO INSERT A NEW VIEW  ');
+        await this.viewService.insertMemberView(input);
+      }
+
+      //Increase Counts
+      result = await this.productModel
+        .findByIdAndUpdate(
+          productId,
+          { $inc: { productViews: +1 } },
+          { new: true },
+        )
+        .exec();
+    }
 
     //TO DO : If authenticated users => first => view log creation
 
