@@ -2,10 +2,11 @@ import OrderItemModel from '../schema/OrderItem.model';
 
 import OrderModel from '../schema/Order.model';
 import { Member } from '../libs/types/members';
-import { Order, OrderItemInput } from '../libs/types/order';
+import { Order, OrderInquiry, OrderItemInput } from '../libs/types/order';
 import { shapeIntoMongooseObjectId } from '../libs/types/config';
 import Errors, { HttpCode, Message } from '../libs/types/Errors';
 import { ObjectId } from 'mongoose';
+import { OrderStatus } from '../libs/types/enums/order.enum';
 class OrderService {
   private readonly orderModel;
   private readonly orderItemModel;
@@ -60,6 +61,41 @@ class OrderService {
     const orderItemState = await Promise.all(promisedList);
 
     console.log('orderItemsState:', orderItemState);
+  }
+
+  public async getMyOrders(
+    member: Member,
+    inquiry: OrderInquiry,
+  ): Promise<Order[]> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+    const matches = { memberId: memberId, orderStatus: inquiry.orderStatus };
+
+    const result = await this.orderModel
+      .aggregate([
+        { $match: matches },
+        { $sort: { updatedAt: -1 } },
+        { $skip: (inquiry.page - 1) * inquiry.limit },
+        { $limit: inquiry.limit },
+        {
+          $lookup: {
+            from: 'orderItems',
+            localField: '_id', //order dagi _id va orderItems ichidagi  orderId birhil bo'ladigan holatni topib berib malumotni orderItems nomi ostida saqlab bersin
+            foreignField: 'orderId',
+            as: 'orderItems',
+          },
+        },
+        {
+          $lookup: {
+            from: 'products',
+            localField: 'orderItems.productId',
+            foreignField: '_id',
+            as: 'productData', //product id orqali usha mahsulotni boshqa collectiondan. topa olyapmiz
+          },
+        },
+      ])
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
   }
 }
 
