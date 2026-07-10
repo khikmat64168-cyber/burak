@@ -4,12 +4,26 @@ import Errors, { HttpCode } from '../libs/types/Errors';
 import { ExtendedRequest } from '../libs/types/members';
 import { Response } from 'express';
 import OrderService from '../models/Order.service';
-import { OrderInquiry } from '../libs/types/order';
+import { OrderInquiry, OrderUpdateInput } from '../libs/types/order';
 
 const orderService = new OrderService();
 
 const orderController: T = {};
+orderController.updateOrder = async (req: ExtendedRequest, res: Response) => {
+  try {
+    console.log('updateOrder');
 
+    const input: OrderUpdateInput = req.body;
+    console.log('input:', input);
+    const result = await orderService.updateOrder(req.member, input);
+
+    res.status(HttpCode.CREATED).json(result);
+  } catch (err) {
+    console.log('Error , updateorder', err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
 orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log('createOrder');
