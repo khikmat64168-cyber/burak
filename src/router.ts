@@ -15,6 +15,7 @@ import uploader from './libs/types/utils/uploader';
 const router = express.Router();
 import memberController from './controllers/member.controller';
 import productController from './controllers/product.controllers';
+import orderController from './controllers/order.controller';
 // router.get(
 //   '/',
 //   //    (req: Request, res: Response) => {
@@ -77,5 +78,11 @@ router.get(
 );
 
 /**. Order */
+
+router.post(
+  '/order/create',
+  memberController.verifyAuth,
+  orderController.createOrder,
+);
 
 export default router;
