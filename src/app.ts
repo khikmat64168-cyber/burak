@@ -13,7 +13,7 @@
 ////// Express ning integratsiyasini amalga oshirish////
 
 //MVC -- client -> controller -> Model (service module:controllerlar bilan ; schema module database bilan ishlidi ) -> database ->views
-
+import cors from 'cors';
 import express from 'express';
 import path from 'path';
 import router from './router';
@@ -73,6 +73,7 @@ app.use(express.json());
  * metodi, URL, status kodi va javob vaqtini chiqaradi.
  * ──────────────────────────────────────────────────────────────────
  */
+app.use(cors({ credentials: true, origin: true }));
 app.use(cookieParser());
 app.use(morgan(MORGAN_FORMAT));
 

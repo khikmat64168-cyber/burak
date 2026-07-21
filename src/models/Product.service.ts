@@ -46,6 +46,34 @@ class ProductService {
   }
 
   /** SPA */
+  //   ProductService obyektining (yoki klassining) ichida getProducts degan asinxron metodi ochilgan va bu metod o‘ziga inquery degan parametrni qabul qiladi. Bu parametrning ma'lumot turi esa ProductInquery ob'ektiga qat'iy tenglangan. Bu metod ishini tugatgach, tashqariga Product obyektlaridan iborat massivni (Product[]) va'da sifatida (Promise) qaytaradi.
+
+  // Kodning boshida console obyektining log metodiga argument sifatida 'inquery:' matni va inquery parametrining o‘zi pass qilinyapti.
+
+  // Keyin, match degan yangi ob'ekt ochilyapti va uning boshlang‘ich qiymati sifatida ichiga productStatus maydoni berilib, unga ProductStatus.PROCESS enum qiymati yuklanyapti.
+
+  // Shundan so‘ng shart tekshirilyapti: agarda inquery parametrining ichida productCollection degan maydon bor bo‘lsa, u holda boyagi match obyektining productCollection maydoniga aynan o‘sha inquery.productCollection qiymat qilib berilyapti (pass qilinyapti).
+
+  // Keyingi shartda: agarda inquery parametrining ichida search degan satr (matn) bor bo‘lsa, u holda match obyektining productName degan maydoniga yangi bitta qidiruv ob'ekti yuklanyapti. Bu ob'ektning ichiga MongoDB'ning $regex operatori uchun inquery.search qiymati, hamda katta-kichik harflarni farqlamaslik uchun $options maydoniga 'i' belgisi pass qilinyapti.
+
+  // Pastroqda sort degan yana bir yangi obyekt ochilyapti. Bu yerda ternary (uchlik) operator yordamida shart tekshirilyapti: agarda inquery parametrining order maydoni qat'iy 'productPrice' matniga teng bo‘lsa, u holda dinamik ravishda [inquery.order] maydoniga 1 qiymati (o‘sish tartibi), aks holda esa -1 qiymati (kamayish tartibi) pass qilinib, sort obyektiga saqlanyapti.
+
+  // Endi eng asosiy baza qismi: this kalit so‘zi orqali joriy klass ichidagi productModel obyektiga murojaat qilinyapti va uning aggregate degan metodiga argument sifatida katta bitta massiv (pipeline) pass qilinyapti.
+
+  // Bu massivning ichiga tartib bilan quyidagi MongoDB operator-obyektlari argument sifatida berilyapti:
+
+  // Birinchi bo‘lib $match operatoriga tepadagi tayyorlangan match ob'ekti pass qilinyapti.
+
+  // Ikkinchi bo‘lib $sort operatoriga tepadagi sort ob'ekti pass qilinyapti.
+
+  // Uchinchi bo‘lib $skip operatoriga sahifalarni hisoblaydigan matematik formula pass qilinyapti. Bu formulaga inquery.page va inquery.limit qiymatlari hisob-kitob uchun berilyapti.
+
+  // To‘rtinchi bo‘lib $limit operatoriga aynan nechta ma'lumotni kesib olishni belgilash uchun inquery.limit * 1 qiymati pass qilinyapti.
+
+  // Bu agregatsiya zanjiri tayyor bo‘lgach, uning ketidan srazi exec metodi chaqirilyapti (hech qanday argumentsiz) va u await orqali bazadan natijani kutib olib, result degan o‘zgaruvchiga yuklaydi.
+
+  // Keyin yana bir bor xavfsizlik sharti tekshirilyapti: agarda bazadan kelgan result ob'ekti bo‘sh yoki mavjud bo‘lmasa (!result), u holda throw kalit so‘zi orqali Errors klassining konstruktoriga argument sifatida HttpCode.NOT_FOUND (404 kodi) va Message.NO_DATA_FOUND xato matnlari pass qilinib, yangi xatolik ob'ekti otib yuborilyapti.
+
   public async getProducts(inquery: ProductInquery): Promise<Product[]> {
     console.log('inquery:', inquery);
     const match: T = { productStatus: ProductStatus.PROCESS }; // #define — MongoDB match: productStatus bo'yicha filter
@@ -94,7 +122,7 @@ class ProductService {
       };
       const existView = await this.viewService.checkViewExistence(input);
 
-      console.log('exist:', !!existView);
+      console.log('exist:', existView);
       if (!existView) {
         //Insert New view log
 
